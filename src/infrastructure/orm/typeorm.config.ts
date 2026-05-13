@@ -19,7 +19,7 @@ export function buildTypeOrmOptions(): DataSourceOptions {
 		password: config.dbPassword,
 		database: config.dbName,
 		entities: [UserEntity, ProductEntity, TransactionEntity],
-		migrations: [],
+		migrations: ['dist/src/infrastructure/orm/migrations/*.js'],
 		synchronize: false,
 		logging: false,
 	};

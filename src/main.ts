@@ -1,3 +1,4 @@
+import { RequestMethod } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -11,7 +12,9 @@ import { HttpExceptionFilter } from './shared/exceptions/http-exception.filter';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: 'health', method: RequestMethod.GET }],
+  });
   app.useGlobalPipes(new AppValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
 
@@ -20,6 +23,7 @@ async function bootstrap(): Promise<void> {
     .setTitle('EllaTech API')
     .setDescription('Users, Products & Transaction History service')
     .setVersion('1.0')
+    .addTag('health', 'Service health checks')
     .addTag('users', 'User management')
     .addTag('products', 'Product management and stock adjustment')
     .addTag('transactions', 'Transaction history')

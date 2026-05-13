@@ -1,18 +1,15 @@
 import { Controller, Get, Query } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { TransactionQueryDto } from '../../application/dtos/transaction-query.dto';
 import { ListTransactionsUseCase } from '../../application/use-cases/list-transactions.use-case';
-import { PaginationMeta } from '../../shared/utils/pagination.helper';
+import { TransactionListResponseDto } from '../dtos/transaction-list-response.dto';
 import { TransactionResponseDto } from '../dtos/transaction-response.dto';
-
-interface TransactionsListResponse {
-	data: TransactionResponseDto[];
-	meta: PaginationMeta;
-}
 
 /**
  * TransactionsController exposes transaction listing endpoints.
  */
+@ApiTags('Transactions')
 @Controller()
 export class TransactionsController {
 	constructor(private readonly listTransactionsUseCase: ListTransactionsUseCase) {}
@@ -21,7 +18,10 @@ export class TransactionsController {
 	 * listTransactions handles GET /transactions.
 	 */
 	@Get('transactions')
-	async listTransactions(@Query() query: TransactionQueryDto): Promise<TransactionsListResponse> {
+	@ApiOperation({ summary: 'List transactions with optional filters and pagination' })
+	@ApiResponse({ status: 200, description: 'Paginated list of transactions', type: TransactionListResponseDto })
+	@ApiResponse({ status: 400, description: 'Validation error' })
+	async listTransactions(@Query() query: TransactionQueryDto): Promise<TransactionListResponseDto> {
 		const result = await this.listTransactionsUseCase.execute(query);
 
 		return {
