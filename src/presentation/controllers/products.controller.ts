@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 
 import { AdjustProductDto } from '../../application/dtos/adjust-product.dto';
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
@@ -25,6 +26,7 @@ export class ProductsController {
 	 */
 	@Post('products')
 	@HttpCode(HttpStatus.CREATED)
+	@Throttle({ write: { ttl: 60_000, limit: 10 } })
 	@ApiOperation({ summary: 'Create a new product' })
 	@ApiResponse({ status: 201, description: 'Product created successfully', type: ProductResponseDto })
 	@ApiResponse({ status: 400, description: 'Validation error' })
@@ -37,6 +39,7 @@ export class ProductsController {
 	 * adjustProduct handles PUT /products/adjust.
 	 */
 	@Put('products/adjust')
+	@Throttle({ write: { ttl: 60_000, limit: 10 } })
 	@ApiOperation({ summary: 'Adjust product stock or price (exactly one field required)' })
 	@ApiResponse({ status: 200, description: 'Product updated successfully', type: ProductResponseDto })
 	@ApiResponse({ status: 400, description: 'Validation error or business rule violation' })

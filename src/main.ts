@@ -1,6 +1,7 @@
 import { RequestMethod } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { AppValidationPipe } from './presentation/pipes/validation.pipe';
@@ -11,6 +12,10 @@ import { HttpExceptionFilter } from './shared/exceptions/http-exception.filter';
  */
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+
+  /* ── Security ──────────────────────────────────────────────────────── */
+  app.use(helmet());
+  /* ─────────────────────────────────────────────────────────────────── */
 
   app.setGlobalPrefix('api', {
     exclude: [{ path: 'health', method: RequestMethod.GET }],
