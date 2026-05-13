@@ -1,3 +1,5 @@
+import { EntityManager } from 'typeorm';
+
 import { TransactionEntity } from '../entities/transaction.entity';
 
 export interface TransactionListOptions {
@@ -13,10 +15,22 @@ export interface TransactionListOptions {
 	priceOnly?: boolean;
 }
 
+export interface CreateTransactionInput {
+	userId: string;
+	productId: string;
+	oldStock: number | null;
+	newStock: number | null;
+	oldPrice: number | null;
+	newPrice: number | null;
+}
+
+/**
+ * TransactionRepositoryAbstract defines transaction history operations.
+ */
 export abstract class TransactionRepositoryAbstract {
-	abstract create(data: Omit<TransactionEntity, 'id' | 'createdAt' | 'user' | 'product'>): Promise<TransactionEntity>;
+	abstract create(data: CreateTransactionInput, manager?: EntityManager): Promise<TransactionEntity>;
 
-	abstract findById(id: string): Promise<TransactionEntity | null>;
+	abstract findById(id: string, manager?: EntityManager): Promise<TransactionEntity | null>;
 
-	abstract findManyAndCount(options: TransactionListOptions): Promise<[TransactionEntity[], number]>;
+	abstract findManyAndCount(options: TransactionListOptions, manager?: EntityManager): Promise<[TransactionEntity[], number]>;
 }

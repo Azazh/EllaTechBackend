@@ -5,6 +5,9 @@ export interface PaginationMeta {
 	totalPages: number;
 }
 
+/**
+ * buildPaginationMeta computes API pagination metadata.
+ */
 export function buildPaginationMeta(total: number, page: number, limit: number): PaginationMeta {
 	return {
 		total,
