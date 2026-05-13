@@ -172,7 +172,7 @@ CREATE DATABASE ellatech;
 Watch TypeScript files and restart on changes:
 
 ```bash
-npm run start:dev
+make dev
 ```
 
 Server runs at `http://localhost:3000/api`  
@@ -181,17 +181,27 @@ Swagger UI at `http://localhost:3000/docs`
 ### Production Build
 
 ```bash
-npm run build
-npm run start
+make build
+make start-prod
 ```
 
 ### Using Docker Compose
 
 ```bash
-docker-compose up -d
+make up
 ```
 
 Starts both the API (port 3000) and PostgreSQL (port 5432).
+
+To stop services:
+```bash
+make down
+```
+
+To view logs:
+```bash
+make logs
+```
 
 ---
 
@@ -200,7 +210,7 @@ Starts both the API (port 3000) and PostgreSQL (port 5432).
 ### Run Migrations
 
 ```bash
-npm run migration:run
+make migration-run
 ```
 
 Creates tables: `users`, `products`, `transactions`.
@@ -208,7 +218,19 @@ Creates tables: `users`, `products`, `transactions`.
 ### Generate Migration (after entity changes)
 
 ```bash
-npm run migration:generate -- -n YourMigrationName
+make migration-generate NAME=YourMigrationName
+```
+
+### Show Migration Status
+
+```bash
+make migration-show
+```
+
+### Revert Last Migration
+
+```bash
+make migration-revert
 ```
 
 ---
@@ -457,16 +479,25 @@ kill -9 <PID>
 
 ### Database connection refused
 
-- Ensure PostgreSQL is running
+- Ensure PostgreSQL is running: `make status` (shows Docker services)
 - Check credentials in `.env`
-- Verify DB exists: `psql -U postgres -l`
+- Verify DB exists: `make db-shell` to open psql
+- View DB logs: `make db-logs`
 
 ### Migrations failed
 
 ```bash
-npm run migration:run
+make migration-run
 # Or reset DB entirely (caution: deletes all data)
-dropdb ellatech && createdb ellatech && npm run migration:run
+make down
+make up
+make migration-run
+```
+
+### View Live Logs
+
+```bash
+make logs
 ```
 
 ---
@@ -476,7 +507,7 @@ dropdb ellatech && createdb ellatech && npm run migration:run
 ### Build for Production
 
 ```bash
-npm run build
+make build
 ```
 
 Outputs compiled code to `dist/` folder.
@@ -484,7 +515,7 @@ Outputs compiled code to `dist/` folder.
 ### Run Production Build
 
 ```bash
-NODE_ENV=production npm start
+make start-prod
 ```
 
 ---
