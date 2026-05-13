@@ -4,6 +4,7 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { AdjustProductUseCase } from './use-cases/adjust-product.use-case';
 import { CreateProductUseCase } from './use-cases/create-product.use-case';
 import { CreateUserUseCase } from './use-cases/create-user.use-case';
+import { GetHealthStatusUseCase } from './use-cases/get-health-status.use-case';
 import { GetProductStatusUseCase } from './use-cases/get-product-status.use-case';
 import { ListTransactionsUseCase } from './use-cases/list-transactions.use-case';
 
@@ -16,6 +17,7 @@ import { ListTransactionsUseCase } from './use-cases/list-transactions.use-case'
 		CreateUserUseCase,
 		CreateProductUseCase,
 		AdjustProductUseCase,
+		GetHealthStatusUseCase,
 		GetProductStatusUseCase,
 		ListTransactionsUseCase,
 	],
@@ -23,6 +25,7 @@ import { ListTransactionsUseCase } from './use-cases/list-transactions.use-case'
 		CreateUserUseCase,
 		CreateProductUseCase,
 		AdjustProductUseCase,
+		GetHealthStatusUseCase,
 		GetProductStatusUseCase,
 		ListTransactionsUseCase,
 	],

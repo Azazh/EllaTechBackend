@@ -28,4 +28,7 @@ export function buildTypeOrmOptions(): DataSourceOptions {
 /**
  * AppDataSource is used by TypeORM migration commands.
  */
-export const AppDataSource = new DataSource(buildTypeOrmOptions());
+export const AppDataSource = new DataSource({
+	...buildTypeOrmOptions(),
+	migrations: ['src/infrastructure/orm/migrations/*.ts'],
+});
