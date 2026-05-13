@@ -84,7 +84,7 @@ db-logs: ## Stream database logs
 
 migration-generate: ## Generate a new TypeORM migration (use: make migration-generate NAME=InitTables)
 	@if [[ -z "$(NAME)" ]]; then echo "Error: NAME is required. Example: make migration-generate NAME=InitTables"; exit 1; fi
-	$(NPM) run migration:generate -- src/infrastructure/orm/migrations/$(NAME)
+	$(NPM) run migration:generate -- src/infrastructure/orm/migrations/$(NAME)  # -d already in npm script
 
 migration-run: ## Run pending TypeORM migrations
 	$(NPM) run migration:run
@@ -94,3 +94,6 @@ migration-revert: ## Revert last TypeORM migration
 
 migration-show: ## Show TypeORM migration status
 	$(NPM) run migration:show
+
+open-docs: ## Open Swagger UI in the default browser (requires running API)
+	xdg-open http://localhost:3000/docs 2>/dev/null || open http://localhost:3000/docs

@@ -19,7 +19,7 @@ export function buildTypeOrmOptions(): DataSourceOptions {
 		password: config.dbPassword,
 		database: config.dbName,
 		entities: [UserEntity, ProductEntity, TransactionEntity],
-		migrations: ['dist/src/infrastructure/orm/migrations/*.js'],
+		migrations: [],
 		synchronize: false,
 		logging: false,
 	};
@@ -28,4 +28,7 @@ export function buildTypeOrmOptions(): DataSourceOptions {
 /**
  * AppDataSource is used by TypeORM migration commands.
  */
-export const AppDataSource = new DataSource(buildTypeOrmOptions());
+export const AppDataSource = new DataSource({
+	...buildTypeOrmOptions(),
+	migrations: ['src/infrastructure/orm/migrations/*.ts'],
+});
